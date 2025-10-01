@@ -1,0 +1,93 @@
+/* quiz.css */
+
+/* Page basics (kept minimal) */
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, Segoe UI, Roboto, Arial, sans-serif;
+  line-height: 1.5;
+}
+
+/* App wrapper */
+#app {
+  max-width: 900px;
+  margin: 24px auto 56px; /* extra bottom space for footer line */
+  padding: 0 16px;
+}
+
+/* Headings */
+h1, h2 {
+  margin: 0 0 12px;
+}
+
+/* Meta row (question x of y + score) */
+#meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  column-gap: 12px; /* fallback for older browsers */
+  row-gap: 12px;    /* fallback for older browsers */
+  margin-bottom: 12px;
+}
+
+/* The “exam itself” — light blue background */
+#quizCard {
+  background: #e6f3ff;            /* light blue */
+  border: 1px solid #c6e2ff;       /* subtle blue border */
+  padding: 16px;
+  border-radius: 8px;
+}
+
+/* Question stage area */
+#stage {
+  margin: 12px 0;
+}
+
+/* Code blocks (unstyled but readable) */
+pre {
+  background: #f6fbff;
+  border: 1px solid #d7ecff;
+  padding: 10px;
+  overflow-x: auto;
+  border-radius: 4px;
+  margin: 8px 0;
+}
+
+/* Feedback text */
+#feedback {
+  margin: 8px 0 12px;
+  font-weight: 600;
+}
+
+/* Controls */
+#controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+#controls button {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+/* End summary card (keep consistent visual style) */
+#endCard {
+  margin-top: 16px;
+  background: #e6f3ff;            /* light blue */
+  border: 1px solid #c6e2ff;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+/* ===== Footer tagline injected after the app ===== */
+#app::after {
+  content: "NCI Greenhorns 2025-2026 - written for broken Moodle victims";
+  display: block;
+  margin-top: 16px;
+  text-align: center;
+  color: #366a9e;                  /* darker blue for contrast */
+  font-size: 0.95rem;
+  font-weight: 600;
+}

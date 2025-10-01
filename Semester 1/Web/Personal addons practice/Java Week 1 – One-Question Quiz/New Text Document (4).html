@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Java Week 1 – One-Question Quiz</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <h1>Java Week 1 – One-Question Quiz</h1>
+
+    <div id="quizCard" aria-live="polite">
+      <div id="meta">
+        <span id="pText">Question 1 of 10</span>
+        <span id="scoreText" aria-label="score">Score: 0</span>
+      </div>
+
+      <div id="stage"><!-- question renders here --></div>
+
+      <div id="feedback"><!-- correctness + explanation --></div>
+
+      <div id="controls">
+        <button id="prevBtn" type="button">Previous</button>
+        <button id="nextBtn" type="button">Next</button>
+        <button id="resetBtn" type="button">Reset</button>
+      </div>
+    </div>
+
+    <div id="endCard" style="display:none">
+      <h2>Results</h2>
+      <p id="finalLine"></p>
+      <ul id="review"></ul>
+      <button type="button" onclick="location.reload()">Restart</button>
+    </div>
+  </div>
+
+<script>
+/* ---------- QUESTIONS ---------- */
+const questions = [
+  { // 1
+    type: "tf",
+    text: "Compiled languages execute more quickly than interpreted languages.",
+    options: [{t:"True",v:"t"},{t:"False",v:"f"}],
+    correct: ["t"],
+    explain: "Interpreters analyze on each run; compiled code is analyzed once. As a week-1 rule of thumb, treat this as True."
+  },
+  { // 2
+    type: "tf",
+    text: "int x and let x mean the same thing in Java.",
+    options: [{t:"True",v:"t"},{t:"False",v:"f"}],
+    correct: ["f"],
+    explain: "<code>let</code> is JavaScript; Java uses static types like <code>int</code>, <code>double</code>, <code>boolean</code>."
+  },
+  { // 3
+    type: "tf",
+    text: "Curly braces { } are the only brackets in Java that do not need closing.",
+    options: [{t:"True",v:"t"},{t:"False",v:"f"}],
+    correct: ["f"],
+    explain: "All brackets must close: (), [], and {}."
+  },
+  { // 4
+    type: "multi",
+    pre: "What is wrong with this code?",
+    code: `int x;
+int y;
+String ans;
+x = '7'
+y = 8;
+x*y = ans;`,
+    options: [
+      {k:"a",t:"ans has been assigned as the wrong data type (should be int)."},
+      {k:"b",t:"The last line is written in the wrong order (assignment target must be a variable)."},
+      {k:"c",t:"Data assigned to x is the wrong type ('7' is a char, not an int)."},
+      {k:"d",t:"Missing semicolon after x = '7'."},
+      {k:"e",t:"Nothing is wrong."}
+    ],
+    correct: ["a","b","c","d"],
+    explain: "Type mismatch for ans, invalid assignment target, wrong literal type for x, and a missing semicolon."
+  },
+  { // 5
+    type: "single",
+    text: "Java uses an automatic memory management system called the…",
+    options: [
+      {k:"a",t:"Auto-reclaimer"},
+      {k:"b",t:"Flux allocator"},
+      {k:"c",t:"Heap bot"},
+      {k:"d",t:"Garbage collector"}
+    ],
+    correct: ["d"],
+    explain: "Java relies on a garbage collector to reclaim unreachable objects."
+  },
+  { // 6
+    type: "single",
+    text: "Java compilers generate…",
+    options: [
+      {k:"a",t:"Machine code"},
+      {k:"b",t:"Library stubs"},
+      {k:"c",t:"Bytecode"},
+      {k:"d",t:"Raw assembly"}
+    ],
+    correct: ["c"],
+    explain: "The Java compiler outputs JVM bytecode (later run/JIT-compiled by the JVM)."
+  },
+  { // 7
+    type: "multi",
+    pre: "Match-by-selection: choose the correct Java type for each literal.",
+    options: [
+      {k:"a",t:`"5" → String`},
+      {k:"b",t:`"5" → int`},
+      {k:"c",t:`true → boolean`},
+      {k:"d",t:`2.5 → double`},
+      {k:"e",t:`'7' → char`},
+      {k:"f",t:`'7' → int`},
+      {k:"g",t:`7 → char`},
+      {k:"h",t:`7 → int`}
+    ],
+    correct: ["a","c","d","e","h"],
+    explain: `Literals: "5"→String, true→boolean, 2.5→double, '7'→char, 7→int.`
+  },
+  { // 8
+    type: "tf",
+    text: "A semicolon denotes the end of a sentence.",
+    options: [{t:"True",v:"t"},{t:"False",v:"f"}],
+    correct: ["f"],
+    explain: "Semicolons terminate most Java statements, not English sentences."
+  },
+  { // 9
+    type: "multi",
+    pre: "What’s wrong with this statement?",
+    code: `system.out.println("Java");`,
+    options: [
+      {k:"a",t:`Uses lowercase system; should be System.`},
+      {k:"b",t:`Missing semicolon.`},
+      {k:"c",t:`Identifier is a class; its name must begin with an upper-case S.`},
+      {k:"d",t:`Capitalization matters in Java.`}
+    ],
+    correct: ["a","c","d"],
+    explain: `Java is case-sensitive. Correct form: System.out.println("Java");`
+  },
+  { // 10
+    type: "tf",
+    text: "You must manually code memory-management into every Java program.",
+    options: [{t:"True",v:"t"},{t:"False",v:"f"}],
+    correct: ["f"],
+    explain: "The garbage collector manages memory; you don't free objects manually in typical Java."
+  }
+];
+
+/* ---------- STATE ---------- */
+let idx = 0;
+let score = 0;
+const answers = new Map(); // index -> {chosen:[...], correct:boolean}
+
+/* ---------- RENDER ---------- */
+function render() {
+  const q = questions[idx];
+  const stage = document.getElementById('stage');
+  const feedback = document.getElementById('feedback');
+  feedback.innerHTML = "";
+
+  let html = "";
+  if (q.text) html += `<div class="qtext">${q.text}</div>`;
+  if (q.pre)  html += `<div class="qtext">${q.pre}</div>`;
+  if (q.code) html += `<pre>${escapeHTML(q.code)}</pre>`;
+
+  html += `<form id="qform">`;
+
+  if (q.type === "tf") {
+    q.options.forEach((o,i)=>{
+      const checked = isChosen(o.v) ? "checked" : "";
+      html += `<label><input type="radio" name="one" value="${o.v}" ${checked}> ${o.t}</label><br/>`;
+    });
+  } else if (q.type === "single") {
+    q.options.forEach((o,i)=>{
+      const checked = isChosen(o.k) ? "checked" : "";
+      html += `<label><input type="radio" name="one" value="${o.k}" ${checked}> ${o.t}</label><br/>`;
+    });
+  } else { // multi
+    q.options.forEach((o,i)=>{
+      const checked = isChosen(o.k) ? "checked" : "";
+      html += `<label><input type="checkbox" value="${o.k}" ${checked}> ${o.t}</label><br/>`;
+    });
+  }
+
+  html += `</form>`;
+  stage.innerHTML = html;
+
+  // wire auto-check
+  document.getElementById('qform').addEventListener('change', autoCheck);
+
+  // meta + buttons
+  document.getElementById('pText').textContent = `Question ${idx+1} of ${questions.length}`;
+  document.getElementById('scoreText').textContent = `Score: ${score}`;
+  document.getElementById('prevBtn').disabled = (idx===0);
+}
+
+function escapeHTML(s){ return s.replace(/[&<>"]/g, m=>({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;" }[m])); }
+
+function isChosen(val){
+  const prev = answers.get(idx);
+  return prev ? prev.chosen.includes(val) : false;
+}
+
+/* ---------- CHECKING (auto on select) ---------- */
+function autoCheck(){
+  const q = questions[idx];
+  const chosen = getChosen();
+  if (chosen.length === 0) return; // nothing selected yet
+
+  const ok = equalAsSets(chosen, q.correct);
+
+  // update score first time only
+  if (!answers.has(idx) && ok) score += 1;
+
+  answers.set(idx, {chosen, correct: ok});
+
+  lockInputs();
+  showFeedback(ok, q.explain);
+  document.getElementById('scoreText').textContent = `Score: ${score}`;
+}
+
+function getChosen(){
+  const form = document.getElementById('qform');
+  if (!form) return [];
+  const radios = form.querySelectorAll('input[type="radio"]');
+  if (radios.length) {
+    const one = form.querySelector('input[type="radio"]:checked');
+    return one ? [one.value] : [];
+  }
+  return Array.from(form.querySelectorAll('input[type="checkbox"]:checked')).map(i=>i.value);
+}
+
+function equalAsSets(a,b){
+  if (a.length!==b.length) return false;
+  const A=new Set(a), B=new Set(b);
+  if (A.size!==B.size) return false;
+  for (const v of A){ if(!B.has(v)) return false; }
+  return true;
+}
+
+function lockInputs(){
+  const form = document.getElementById('qform');
+  if (!form) return;
+  form.querySelectorAll('input').forEach(i=>i.disabled = true);
+}
+
+function showFeedback(ok, text){
+  const feedback = document.getElementById('feedback');
+  const chip = ok ? "Correct" : "Review";
+  feedback.innerHTML = `<strong>${chip}</strong><div>${text}</div>`;
+}
+
+/* ---------- NAV ---------- */
+document.getElementById('nextBtn').addEventListener('click', ()=>{
+  const answered = answers.has(idx);
+  if (!answered) {
+    alert("Please select an answer before continuing.");
+    return;
+  }
+  if (idx < questions.length - 1){
+    idx++;
+    render();
+  } else {
+    finish();
+  }
+});
+
+document.getElementById('prevBtn').addEventListener('click', ()=>{
+  if (idx>0){ idx--; render(); }
+});
+
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  idx = 0; score = 0; answers.clear();
+  render();
+});
+
+/* ---------- END ---------- */
+function finish(){
+  document.getElementById('quizCard').style.display = "none";
+  const end = document.getElementById('endCard');
+  const pct = Math.round(100*score/questions.length);
+  document.getElementById('finalLine').textContent = `Final Score: ${score} / ${questions.length} (${pct}%)`;
+  const rev = document.getElementById('review');
+  rev.innerHTML = "";
+  questions.forEach((q,i)=>{
+    const r = answers.get(i);
+    const ok = r && r.correct ? "✅" : "❌";
+    const title = q.text || q.pre;
+    const li = document.createElement('li');
+    li.innerHTML = `${ok} Q${i+1}: ${title}`;
+    rev.appendChild(li);
+  });
+  end.style.display = "block";
+}
+
+/* ---------- INIT ---------- */
+render();
+</script>
+</body>
+</html>
