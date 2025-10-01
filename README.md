@@ -36,6 +36,6 @@ Coursework, labs, and notes for the **Higher Diploma in Science in Computing (So
 
 ## 📂 Repo Structure  
 
----
+https://github.com/brunkonjaa/NCI-HDIP-Computing/tree/main/Semester%201/Web/Labs/Week%202%20Lab
 
 ![Made with ❤️ by Bruno Suric](https://img.shields.io/badge/Made%20with-%E2%9D%A4%EF%B8%8F%20by%20Bruno%20Suric-darkred.svg)
