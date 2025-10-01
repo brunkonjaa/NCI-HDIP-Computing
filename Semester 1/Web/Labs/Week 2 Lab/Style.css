@@ -1,0 +1,85 @@
+/* Page base */
+html, body {
+  margin: 0;
+  background: #333;             /* full-page dark background */
+  color: #e8e8e8;
+  font-family: "Courier New", Courier, monospace;
+  line-height: 1.35;
+}
+
+.screen {
+  padding: 16px 18px;
+  max-width: 1100px;
+}
+
+/* Big gren title */
+.screen > h1 {
+  margin: 0 0 20px;
+  font-weight: 700;
+  font-size: 2.4rem;
+  color: #39ff14;
+}
+
+/* “Welcome to NCI' */
+p.welcome {
+  margin: 0 0 24px;
+  font-size: 1.35rem;
+}
+.green  { color: #39ff14; }             /* Qelcome */
+.white  { color: #e8e8e8; }             /* to */
+.orange { color: #ffb300; }             /* NCI */
+
+/* Section headings (green) */
+.section-head {
+  margin: 28px 0 14px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #39ff14;
+  letter-spacing: 0.5px;
+}
+
+/* Lists */
+ul, ol {
+  margin: 0 0 28px 26px;
+  padding: 0;
+}
+
+ul li {
+  margin: 10px 0;
+  font-size: 1.35rem;
+  color: #e8e8e8;               /* white*/
+  text-shadow: 0 0 3px #39ff14, 0 0 6px #1aff00;
+}
+
+ol li {
+  margin: 10px 0;
+  font-size: 1.35rem;
+  color: #ffb300;               /* numbers + text in orange colour*/
+}
+
+/* ===== Week 2 additions ===== */
+
+/* Headings: subtle depth */
+h1, h2 { text-shadow: 1px 1px 2px rgba(0,0,0,0.25); }
+
+/* Emphasize key words/phrases */
+.key { font-weight: 700; text-decoration: underline; }
+
+/* Restyle ONE list (technical skills) */
+.skills-list { list-style-type: square; padding-left: 1.25rem; }
+.skills-list li::marker { color: #7a1111; }
+
+/* In-page navigation (CSS-only separators) */
+.page-nav {
+  display: flex; flex-wrap: wrap;
+  gap: 0.25rem 0.5rem;
+  margin: 0.5rem 0 1.25rem;
+  font-size: 0.95rem;
+}
+.page-nav a {
+  text-decoration: none;
+  font-weight: 600;
+  border-bottom: 1px dotted currentColor;
+}
+.page-nav a:hover, .page-nav a:focus { border-bottom-style: solid; }
+.page-nav a:not(:last-child)::after { content: "·"; margin: 0 0.5rem; opacity: 0.7; }

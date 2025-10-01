@@ -1,0 +1,32 @@
+
+
+Java code fixed:
+
+1. Public class name corrected
+o Before: MyFristProgram
+o After: MyFirstProgram
+
+2. Entry point signature corrected
+o Before: public static void Main(String args)]
+o After: public static void main(String[] args)
+
+3. API casing & method name fixed
+o Before: system.out.println (lowercase system); System.out.printIn
+o After: System.out.println on both lines
+
+4. String literals fixed
+o Before: single quotes in printIn('And I love java too')
+o After: double quotes "And I love java too"
+
+5. Missing semicolon added
+o Before: second print lacked ;
+o After: both statements end with ;
+
+6. Brace balance corrected
+o Before: extra } at end; uneven braces
+o After: braces pair properly (class { main { … } })
+
+7. Header tidy-up
+o Normalized comment spacing; author formatting
+	Week 1 Lab
+
