@@ -1,0 +1,46 @@
+/* ID main heading */
+#pageTitle {
+  text-align: center;
+  font-weight: bold;
+  color: darkblue;
+}
+
+/* Class intro text */
+.intro {
+  text-align: center;
+  font-style: italic;
+  color: gray;
+}
+
+/* Genre */
+.comedy {
+  color: green;
+}
+
+.action {
+  color: red;
+  font-weight: bold;
+}
+
+.horror {
+  color: darkred;
+  font-style: italic;
+}
+
+.thriller {
+  color: navy;
+  text-decoration: underline;
+}
+
+.animated {
+  color: orange;
+  font-weight: bold;
+  font-style: italic;
+}
+
+/* Movie ID */
+#specialMovie {
+  color: gold;
+  font-size: 1.3em;
+  font-weight: bold;
+}
