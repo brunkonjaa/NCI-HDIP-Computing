@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Java Exam – NCI HDIP</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!--DARK/LIGHT MODE TOGGLE-->
+  <div class="mode-toggle">
+    <button id="toggle-mode">Switch Theme</button>
+  </div>
+
+  <!--MAIN CONTAINER WITH 3 SECTIONS-->
+  <div class="container">
+
+    <!--LEFT DISCLAIMER-->
+    <div class="disclaimer">
+      <div>
+        <h2>NCI - HDIP in Science in Computing (Software Development)</h2>
+        <p>
+          This exam was hammered together purely for personal learning, caffeine shakes, and the occasional existential crisis.<br><br>
+          Created by brunkonjaa with the help of Notepad++, TextPad, VSCode, and a sometimes cooperative AI (ChatGPT). Built on bucketloads of coffee, the odd slab of tiramisu, and I just have to mention cannelloni, do not ask why...<br><br>
+		  Truth be told, I havent the faintest idea about coding. I just know how to bash the keys til the thing coughs up the right answer. Picture it: me standing outside some god-forsaken pub in the middle of nowhere, the sign swinging in the wind, only a limping hen and a deaf donkey for company on the side of the road. I am there mumbling about Java syntax like it is gospel, but in reality, I am just hoping nobody asks me how it actually works. The donkey does not judge, the hen just stares - and that is about the level of feedback I can handle.<br><br>
+          It is probably riddled with wrong answers, half-baked logic, and the occasional coding sin.<br><br>
+          So take it as practice, not gospel. This is definitely not official exam material.<br>
+          Use at your own peril - and may you have more correct answers than empty cups of coffee. <br><br>
+		  Happy hunting Peeps!!!<br><br>
+        </p>
+      </div>
+    </div>
+
+    <!--CENTER EXAM CONTENT-->
+    <div class="exam">
+      <!--QUESTION CONTAINER-->
+      <div id="question-container"></div>
+
+      <!--NAVIGATION BUTTONS-->
+      <div class="navigation">
+        <button id="prev-btn">Previous</button>
+        <button id="next-btn">Next</button>
+        <button id="submit-btn">Submit Exam</button>
+      </div>
+
+      <!--RESULTS PANEL-->
+      <div id="results" class="hidden"></div>
+    </div>
+
+    <!--RIGHT PROGRESS TRACKER-->
+    <div class="tracker">
+      <h3>Progress</h3>
+      <div id="progress-container"></div>
+    </div>
+
+  </div>
+
+  <!--JAVASCRIPT-->
+  <script src="script.js"></script>
+</body>
+</html>
