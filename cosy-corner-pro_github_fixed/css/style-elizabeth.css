@@ -1,0 +1,16 @@
+
+h1,h2,h3,h4 { letter-spacing: .3px; }
+a { color: var(--cc-accent); text-decoration: none; transition: color .2s ease; }
+a:hover, a:focus { color: #8b5d40; }
+a:focus, button:focus, input:focus, textarea:focus { outline: 3px solid var(--cc-focus); outline-offset: 2px; box-shadow: none; }
+.navbar-brand { color:#6f4e37 !important; }
+.btn-primary { background:#6f4e37; border-color:#6f4e37; border-radius: var(--cc-radius); padding:.6rem 1.3rem; transition: all .2s ease; }
+.btn-primary:hover { background:#8b5d40; border-color:#8b5d40; }
+.btn-outline-primary { color:#6f4e37; border-color:#6f4e37; }
+.btn-outline-primary:hover { background:#6f4e37; color:#fff; }
+form { background: #fff; padding: 1.5rem; border-radius: var(--cc-radius); box-shadow: var(--cc-shadow); }
+.form-label { font-weight: 500; color: var(--cc-accent); }
+input.form-control, textarea.form-control { border: 1px solid #ddd; border-radius: var(--cc-radius); transition: border-color .2s ease; }
+input.form-control:focus, textarea.form-control:focus { border-color: var(--cc-accent); box-shadow: 0 0 0 0.1rem rgba(111,78,55,0.25); }
+.invalid-feedback { color: #c0392b; font-size: 0.9rem; }
+.alert-success { background: #e8f7e6; color: #2c662d; border: 1px solid #b5deb2; border-radius: var(--cc-radius); }
