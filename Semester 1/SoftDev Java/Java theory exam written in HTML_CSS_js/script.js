@@ -1,5 +1,5 @@
-// EXAM
-const questions = [
+﻿// EXAM
+const DEFAULT_QUESTIONS = [
   {
 question: "Which of these are valid Java primitive types?",
 answers: ["boolean", "double", "String", "char"],
@@ -326,6 +326,9 @@ type: "multiple"
 }
 ];
 
+// Allow external override: if exam page defines window.EXAM_QUESTIONS, use it
+const questions = Array.isArray(window.EXAM_QUESTIONS) ? window.EXAM_QUESTIONS : DEFAULT_QUESTIONS;
+
 // DOM
 const questionContainer = document.getElementById("question-container");
 const progressContainer = document.getElementById("progress-container");
@@ -398,14 +401,13 @@ function applyGradingStyles(q, inputs, selections) {
       mark.className = "graded-mark";
       mark.style.fontSize = "20px";
       mark.style.marginLeft = "6px";
-      mark.textContent = "✔️";
+      mark.textContent = '\u2714';
       label.appendChild(mark);
 
-      // CHOSEN CORRECT VS MISSED CORRECT (IF THAT MAKES SENSE)
+      // CHOSEN CORRECT VS MISSED CORRECT - UNDERLINE TO DIFFERENTIATE
       label.style.fontWeight = "700";
       label.style.color = "#000";
       if (!chosen) {
-        // MISSED CORRECT → UNDERLINE TO DIFFERENTIATE
         label.style.textDecoration = "underline";
       }
     }
@@ -562,3 +564,9 @@ submitBtn.addEventListener("click", submitExam);
 
 // START
 loadQuestion();
+
+
+
+
+
+

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Java Exam (Imported) - NCI HDIP</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="mode-toggle">
+    <button id="toggle-mode">Switch Theme</button>
+  </div>
+
+  <div class="container">
+    <div class="disclaimer">
+      <div>
+        <h2>NCI - HDIP in Science in Computing (Software Development)</h2>
+        <p>
+          This page is wired to load an externally provided questions array.<br><br>
+          Paste your 100-question array into the inline script below where indicated.
+        </p>
+      </div>
+    </div>
+
+    <div class="exam">
+      <div id="question-container"></div>
+      <div class="navigation">
+        <button id="prev-btn">Previous</button>
+        <button id="next-btn">Next</button>
+        <button id="submit-btn">Submit Exam</button>
+      </div>
+      <div id="results" class="hidden"></div>
+    </div>
+
+    <div class="tracker">
+      <h3>Progress</h3>
+      <div id="progress-container"></div>
+    </div>
+  </div>
+
+  <!-- Paste your questions array here as window.EXAM_QUESTIONS -->
+  <script>
+    // Example shape: window.EXAM_QUESTIONS = [{ question: "...", answers: ["..."], correct: [0,2], type: "multiple" }, ...];
+    // TODO: Paste your 100-question array from ChatGPT below between the brackets
+    window.EXAM_QUESTIONS = [
+      // Paste items here
+    ];
+  </script>
+
+  <!-- Loads the shared exam logic; will use window.EXAM_QUESTIONS if present -->
+  <script src="script.js"></script>
+</body>
+</html>
+

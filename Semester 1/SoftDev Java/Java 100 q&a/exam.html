@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Java NFQ Level 8 Prep Exam</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="exam-body">
+  <header class="exam-header">
+    <div class="exam-branding">
+      <h1>Java NFQ Level 8 Certification Prep Exam</h1>
+    </div>
+    <div class="exam-header-tools">
+      <div class="theme-toggle-container">
+        <label class="theme-switch">
+          <input type="checkbox" id="mode-toggle" />
+          <span class="slider"></span>
+          Dark Mode
+        </label>
+      </div>
+      <div class="exam-timer" aria-live="polite">
+        <span>Time left:</span>
+        <time id="elapsed-time">00:00:00</time>
+      </div>
+    </div>
+  </header>
+
+  <!-- Intro removed as requested -->
+
+  <main class="exam-main" aria-live="polite">
+    <aside class="exam-sidebar" aria-label="Question palette">
+      <div class="palette-header">
+        <h2>Question Palette</h2>
+        <button id="toggle-palette" class="palette-toggle" aria-expanded="true">Hide Palette</button>
+      </div>
+      <div class="palette-summary">
+        <span><strong id="answered-count">0</strong> answered</span>
+        <span><strong id="flagged-count">0</strong> flagged</span>
+        <span><strong id="remaining-count">100</strong> remaining</span>
+      </div>
+      <div class="palette-grid" id="question-palette"></div>
+    </aside>
+
+    <section class="exam-content" aria-label="Exam workspace">
+      <div class="exam-progress">
+        <div>
+          <p id="question-progress">Question 1 of 100</p>
+          <p class="exam-domain" id="question-domain">Domain: JVM &amp; Platform</p>
+        </div>
+        <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="1">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+      </div>
+
+      <article class="exam-question" id="question-container">
+        <!-- question is injected here -->
+      </article>
+
+      <footer class="exam-actions">
+        <button id="flag-question" class="flag-button" aria-pressed="false">Flag for Review</button>
+        <div class="nav-buttons">
+          <button id="prev-question" class="nav-button" disabled>Previous</button>
+          <button id="next-question" class="nav-button">Next</button>
+        </div>
+        <button id="submit-exam" class="submit-button" disabled>Review &amp; Submit</button>
+      </footer>
+    </section>
+  </main>
+
+  <section class="review-overlay" id="review-overlay" aria-hidden="true">
+    <div class="review-panel" role="dialog" aria-modal="true" aria-labelledby="review-title">
+      <header class="review-header">
+        <h2 id="review-title">Exam Review</h2>
+        <button id="close-review" class="close-review" aria-label="Close review">&times;</button>
+      </header>
+      <div class="review-summary">
+        <p><strong>Score:</strong> <span id="score-percent">0%</span> &mdash; <span id="score-detail">0 of 100 correct</span></p>
+        <p><strong>Time on task:</strong> <span id="review-elapsed">00:00:00</span></p>
+      </div>
+      <div class="review-controls">
+        <button id="expand-all" class="outline-button">Expand All</button>
+        <button id="collapse-all" class="outline-button">Collapse All</button>
+        <span class="review-sep" aria-hidden="true"></span>
+        <button id="restart-exam" class="outline-button">Restart Exam</button>
+        <button id="retry-incomplete" class="outline-button">Retry Wrong/Unanswered</button>
+      </div>
+      <div id="review-content" class="review-content"></div>
+    </div>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>
