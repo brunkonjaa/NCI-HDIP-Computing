@@ -1,0 +1,141 @@
+<!--
+  Mock Exam Portal
+  Started: January 2024 (self-taught during cybersecurity studies)
+  Note: Continuation of an earlier project; early versions lacked comments. Now using more
+  documentation so others (and future-me) can quickly understand the intent of each section.
+  Still using ever so slightly excessive commenting because it soothes my OCD now that I
+  understand what it actually purpose is.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lecturer Dashboard &mdash; Mock Exam Portal</title>
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+  <script defer src="../assets/data/html-questions.js"></script>
+  <script defer src="../assets/data/css-questions.js"></script>
+  <script defer src="../assets/data/java-questions.js"></script>
+  <script defer src="../assets/js/data.js"></script>
+  <script defer src="../assets/js/app.js"></script>
+  <script defer src="../assets/js/lecturer.js"></script>
+</head>
+<body data-page="lecturer">
+  <header class="site-header">
+    <div class="container">
+      <h1 class="site-title">Lecturer Dashboard</h1>
+      <nav class="site-nav">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="student.html" class="nav-link">Student Hub</a>
+        <a href="lecturer.html" class="nav-link is-active">Lecturer Dashboard</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card focus" id="lecturer-auth-section">
+      <header>
+        <h2>Lecturer Access</h2>
+        <p>Enter the lecturer passphrase to unlock student analytics stored on this computer.</p>
+      </header>
+      <form id="lecturerForm" novalidate>
+        <div class="form-row">
+          <label for="lecturerCode">Passphrase</label>
+          <input type="password" id="lecturerCode" name="lecturerCode" required minlength="6" />
+          <span class="form-error" data-error-for="lecturerCode"></span>
+        </div>
+        <div class="form-actions">
+          <button class="btn primary" type="submit">Unlock Dashboard</button>
+          <button class="btn" type="button" id="resetLecturerCodeBtn">Reset Passphrase</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card card-wide" id="dashboardContent" hidden>
+      <header>
+        <h2>Performance Overview</h2>
+        <p>Track aggregated performance metrics and drill into individual attempts.</p>
+      </header>
+
+      <div class="dashboard-grid">
+        <article class="card metric">
+          <span class="metric-label">Total Attempts</span>
+          <span class="metric-value" data-total-attempts>0</span>
+        </article>
+        <article class="card metric">
+          <span class="metric-label">Average Score</span>
+          <span class="metric-value" data-average-score>0%</span>
+        </article>
+        <article class="card metric">
+          <span class="metric-label">Median Score</span>
+          <span class="metric-value" data-median-score>0%</span>
+        </article>
+        <article class="card metric">
+          <span class="metric-label">On-Track Students</span>
+          <span class="metric-value" data-on-track-count>0</span>
+        </article>
+      </div>
+
+      <div class="card">
+        <header>
+          <h3>Score Distribution</h3>
+          <p>See how attempts are clustering by performance bands.</p>
+        </header>
+        <div id="scoreDistribution" class="chart-placeholder"></div>
+      </div>
+
+      <div class="card">
+        <header>
+          <h3>Topic Mastery</h3>
+          <p>Average percentage per topic across all attempts.</p>
+        </header>
+        <div id="topicMastery" class="chart-placeholder"></div>
+      </div>
+
+      <div class="card">
+        <header class="table-header">
+          <div>
+            <h3>Attempt Log</h3>
+            <p>Filter by exam, student, or date range to investigate specific attempts.</p>
+          </div>
+          <div class="filters">
+            <label>
+              Exam
+              <select id="filterExam">
+                <option value="all">All exams</option>
+              </select>
+            </label>
+            <label>
+              Student
+              <input type="text" id="filterStudent" placeholder="Search student name…" />
+            </label>
+            <label>
+              Date (from)
+              <input type="date" id="filterFrom" />
+            </label>
+            <label>
+              Date (to)
+              <input type="date" id="filterTo" />
+            </label>
+            <button class="btn" id="clearFiltersBtn" type="button">Clear</button>
+          </div>
+        </header>
+        <div class="table-wrapper" id="attemptLogTable"></div>
+        <div class="table-actions">
+          <button class="btn" id="exportCsvBtn" type="button">Export CSV</button>
+          <button class="btn subtle" id="clearActiveSessionBtn" type="button">Clear Active Sessions</button>
+          <button class="btn danger" id="purgeAttemptsBtn" type="button">Archive & Purge All</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span data-year></span> Mock Exam Portal &mdash; Lecturer Dashboard</p>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

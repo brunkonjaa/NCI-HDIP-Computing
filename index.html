@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<!--
+  Mock Exam Portal
+  Started: January 2024 (self-taught during cybersecurity studies)
+  Note: This is a continuation of the earlier project. Improved documentation added so
+  contributors can quickly understand the purpose of each section.
+  Still using ever so slightly excessive commenting because it soothes my OCD now that I
+  understand what it actually purpose is.
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mock Exam Portal</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>">
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <script defer src="assets/data/html-questions.js"></script>
+  <script defer src="assets/data/css-questions.js"></script>
+  <script defer src="assets/data/java-questions.js"></script>
+  <script defer src="assets/js/data.js"></script>
+  <script defer src="assets/js/app.js"></script>
+  <script defer src="assets/js/index.js"></script>
+</head>
+<body data-page="home">
+  <header class="site-header">
+    <div class="container">
+      <h1 class="site-title">Mock Exam Portal</h1>
+      <nav class="site-nav">
+        <a href="index.html" class="nav-link is-active">Home</a>
+        <a href="pages/student.html" class="nav-link">Student Hub</a>
+        <a href="pages/lecturer.html" class="nav-link">Lecturer Dashboard</a>
+        <a href="#about" class="nav-link">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-content">
+        <h2>Your practice space for HTML, CSS, and Java exams</h2>
+        <p>
+          Prepare for assessments with realistic 80-question mock exams, track your progress,
+          and review analytics over time. All data stored locally in your browser.
+        </p>
+        <div class="hero-actions">
+          <a class="btn primary" href="pages/student.html">Enter Student Hub</a>
+          <a class="btn outline" href="pages/lecturer.html">View Lecturer Dashboard</a>
+          <!-- <button class="btn subtle" id="debugClearBtn" type="button">🔧 Clear All Data (Debug)</button> -->
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-card">
+          <span class="hero-card__label">Exam Progress</span>
+          <span class="hero-card__value">65%</span>
+          <div class="hero-card__bar">
+            <span class="hero-progress"></span>
+          </div>
+          <p class="hero-card__meta">HTML Mock Exam &mdash; Attempt 3 of 5</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid-section" id="features">
+      <h2>Why students and lecturers love it</h2>
+      <div class="grid three">
+        <article class="card">
+          <h3>Exam Realism</h3>
+          <p>Timed assessments, change tracking, flagged questions, and review before you submit.</p>
+        </article>
+        <article class="card">
+          <h3>Offline First</h3>
+          <p>Runs entirely in your browser with local data. Perfect for testing environments that block the internet.</p>
+        </article>
+        <article class="card">
+          <h3>Lecturer Insights</h3>
+          <p>Automatic analytics of student attempts, topic mastery trends, and exportable CSV reports.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="grid-section" id="about">
+      <h2>Project Overview</h2>
+      <div class="grid two">
+        <article class="card">
+          <h3>Assignment Alignment</h3>
+          <ul>
+            <li>Minimum four HTML5 pages with consistent navigation.</li>
+            <li>External CSS per contributor enabling unique visual themes.</li>
+            <li>Validated forms for exam start, submission, and lecturer sign-in.</li>
+            <li>Demonstrates JavaScript-driven interactivity and offline storage.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>How to Use</h3>
+          <ol>
+            <li>Open <strong>student.html</strong> to register a student profile.</li>
+            <li>Select an exam (HTML, CSS, or Java) and start the timer.</li>
+            <li>Submit to view instant results and topic-level feedback.</li>
+            <li>Lecturer opens <strong>lecturer.html</strong> to review history.</li>
+          </ol>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span data-year></span> Mock Exam Portal. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

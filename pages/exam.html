@@ -1,0 +1,112 @@
+<!--
+  Mock Exam Portal - Exam runner page
+  Started: January 2024 (self-taught during cybersecurity studies)
+  Commenting: added explanatory headers and preserved original behaviours.
+  Still using ever so slightly excessive commenting because it soothes my OCD now that I
+  understand what it actually purpose is.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exam Runner &mdash; Mock Exam Portal</title>
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+  <script defer src="../assets/data/html-questions.js"></script>
+  <script defer src="../assets/data/css-questions.js"></script>
+  <script defer src="../assets/data/java-questions.js"></script>
+  <script defer src="../assets/js/data.js"></script>
+  <script defer src="../assets/js/app.js"></script>
+  <script defer src="../assets/js/exam-runner.js"></script>
+</head>
+<body data-page="exam">
+  <header class="site-header">
+    <div class="container">
+      <h1 class="site-title" data-exam-title>Loading Exam…</h1>
+      <nav class="site-nav">
+        <a href="student.html" class="nav-link">Exit to Student Hub</a>
+        <a href="lecturer.html" class="nav-link">Lecturer Dashboard</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="exam-layout">
+    <aside class="exam-column" id="sidebar">
+      <div class="exam-summary card">
+        <h2>Attempt Details</h2>
+        <dl>
+          <div>
+            <dt>Student</dt>
+            <dd data-student-name>—</dd>
+          </div>
+          <div>
+            <dt>Exam</dt>
+            <dd data-sidebar-exam>—</dd>
+          </div>
+          <div>
+            <dt>Remaining Time</dt>
+            <dd class="timer" data-remaining>00:00:00</dd>
+          </div>
+          <div>
+            <dt>Progress</dt>
+            <dd><span data-progress-count>0</span> / <span data-progress-total>0</span></dd>
+          </div>
+        </dl>
+        <button class="btn" id="toggleSidebarBtn" type="button">Hide Summary</button>
+      </div>
+    </aside>
+
+    <section class="exam-content">
+      <div class="exam-top-bar">
+        <span class="badge" data-q-index>Question 1 of 80</span>
+        <button class="btn subtle" id="toggleNavBtn" type="button">Toggle Navigator</button>
+        <button class="btn accent" id="flagQuestionBtn" type="button">Flag Question</button>
+      </div>
+
+      <article class="card question-card" id="questionCard">
+        <header>
+          <h2 data-question-title>Loading question…</h2>
+          <p class="question-topic" data-question-topic></p>
+        </header>
+        <form id="answerForm" novalidate></form>
+      </article>
+
+      <div class="exam-actions">
+        <button class="btn" id="prevQuestionBtn" type="button">Previous</button>
+        <button class="btn" id="nextQuestionBtn" type="button">Next</button>
+        <button class="btn danger" id="reviewBtn" type="button">Review and Submit</button>
+      </div>
+    </section>
+
+    <aside class="exam-column" id="navigatorColumn">
+      <div class="card" id="questionNavigator">
+        <header>
+          <h2>Question Navigator</h2>
+        </header>
+        <div class="navigator-grid" data-question-buttons></div>
+        <div class="navigator-legend">
+          <span class="legend-item answered">Answered</span>
+          <span class="legend-item flagged">Flagged</span>
+          <span class="legend-item current">Current</span>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <div class="modal" id="reviewModal" aria-hidden="true" role="dialog" aria-labelledby="reviewModalTitle">
+    <div class="modal__dialog">
+      <header class="modal__header">
+        <h2 id="reviewModalTitle">Review Attempt</h2>
+        <button class="modal__close" type="button" aria-label="Close review" data-close-modal>&times;</button>
+      </header>
+      <div class="modal__body" id="reviewSummary"></div>
+      <footer class="modal__footer">
+        <button class="btn" type="button" data-close-modal>Continue Exam</button>
+        <button class="btn danger" type="button" id="submitExamBtn">Submit Exam</button>
+      </footer>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

@@ -1,0 +1,1393 @@
+/*
+  Mock Exam Portal - consolidated stylesheet
+  Started: January 2024 (self-taught during cybersecurity studies)
+  Note: This repository is a continuation of that project. Early work lacked proper comments.
+  I've since learned the value of readable code and documentation.
+  I'm still using ever so slightly excessive commenting because it soothes my OCD now that I
+  understand its actual purpose.
+
+  This single CSS file consolidates previous files:
+  - main.css (core styles)
+  - theme-home.css, theme-lecturer.css, theme-student.css (per-page theme tweaks)
+
+  Sections are commented so another human can quickly say "aha — this section does X".
+*/
+
+/* ===== Variables & Theme tokens ===== */
+:root {
+  color-scheme: light;
+  --font-sans: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  --font-mono: "Fira Code", "Consolas", "Courier New", monospace;
+  --color-bg: #0f172a;
+  --color-surface: rgba(15, 23, 42, 0.8);
+  --color-card: rgba(15, 23, 42, 0.92);
+  --color-accent: #6366f1;
+  --color-accent-strong: #4f46e5;
+  --color-accent-soft: rgba(99, 102, 241, 0.1);
+  --color-muted: rgba(226, 232, 240, 0.7);
+  --color-text: #e2e8f0;
+  --color-heading: #ffffff;
+  --color-border: rgba(226, 232, 240, 0.1);
+  --color-danger: #ef4444;
+  --color-success: #22c55e;
+  --color-info: #0ea5e9;
+  --gradient-primary-start: #f472b6;
+  --gradient-primary-end: #60a5fa;
+  --gradient-secondary-start: #4f46e5;
+  --gradient-secondary-end: #22d3ee;
+  --radius: 16px;
+  --shadow-xl: 0 24px 60px rgba(15, 23, 42, 0.4);
+  --shadow-md: 0 18px 36px rgba(15, 23, 42, 0.35);
+  --shadow-sm: 0 12px 28px rgba(15, 23, 42, 0.24);
+  --transition: 180ms ease;
+  --container-width: min(1200px, 94vw);
+  --layout-gutter: clamp(1.5rem, 3vw, 3rem);
+  background-color: var(--color-bg);
+}
+
+/* ===== Reset & Box-sizing ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* ===== Base layout & typography ===== */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  background: radial-gradient(circle at top left, rgba(99, 102, 241, 0.08), transparent 55%),
+    radial-gradient(circle at top right, rgba(14, 165, 233, 0.12), transparent 50%),
+    var(--color-bg);
+  color: var(--color-text);
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  min-height: 100vh;
+}
+
+body *,
+body *::before,
+body *::after {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 3vw, 2rem);
+}
+
+main.container {
+  padding-block: clamp(2rem, 4vw, 3rem);
+  width: 100%;
+}
+
+main.container > * {
+  min-width: 0;
+}
+
+body[data-page="student"] main,
+body[data-page="lecturer"] main,
+body[data-page="exam-info"] main {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  align-items: start;
+  align-content: start;
+}
+
+/* ===== RESULTS PAGE LAYOUT & STYLES ===== */
+/* 
+  Styles specific to the exam results page (body[data-page="results"])
+  Layout: exam-layout with three columns (removed right sidebar with topic breakdown)
+    - Left sidebar (280px): Attempt summary card + next steps card
+    - Center (flexible): Review answers section with question navigator
+  
+  Key Components:
+    - results-summary-card: Score breakdown in 2x2 grid (Score, Correct, Incorrect, Time)
+    - next-steps-card: Action buttons (Return to Hub, Export JSON)
+    - review-content: Question navigator grid + answer detail view
+    - navigator-buttons: Color-coded question indicators (is-correct/is-incorrect)
+*/
+
+/* Render results page using exam-layout flex structure */
+body[data-page="results"] main {
+  display: flex;
+  width: 100%;
+  padding-inline: var(--layout-gutter);
+  gap: var(--layout-gutter);
+  margin: clamp(1.75rem, 3vw, 3rem) auto;
+  box-sizing: border-box;
+}
+
+.card-wide {
+  grid-column: span 2;
+}
+
+@media (max-width: 900px) {
+  .card-wide {
+    grid-column: span 1;
+  }
+}
+
+/* ===== Header & navigation ===== */
+.site-header {
+  border-bottom: 1px solid var(--color-border);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  background: rgba(10, 17, 33, 0.75);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 1rem;
+}
+
+.site-title {
+  font-size: clamp(1.4rem, 2vw, 1.8rem);
+  font-weight: 700;
+  margin: 0;
+  color: var(--color-heading);
+  letter-spacing: 0.02em;
+}
+
+.site-nav {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.nav-link {
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  transition: background var(--transition), color var(--transition);
+  font-weight: 500;
+  color: var(--color-muted);
+}
+
+.nav-link:is(:hover, :focus-visible) {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-heading);
+}
+
+.nav-link.is-active {
+  background: rgba(99, 102, 241, 0.15);
+  color: var(--color-heading);
+}
+
+/* ===== Hero / landing visuals ===== */
+.hero {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: center;
+  margin-block: clamp(2rem, 6vw, 5rem);
+}
+
+.hero-content h2 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin-bottom: 1rem;
+  color: var(--color-heading);
+}
+
+.hero-content p {
+  margin-bottom: 1.5rem;
+  color: var(--color-muted);
+  line-height: 1.6;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.hero-visual {
+  display: flex;
+  justify-content: center;
+}
+
+.hero-card {
+  width: clamp(260px, 70vw, 320px);
+  padding: 2rem;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.18), rgba(14, 165, 233, 0.14));
+  box-shadow: var(--shadow-xl);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+}
+
+.hero-card__label {
+  display: block;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--color-muted);
+}
+
+.hero-card__value {
+  display: block;
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: var(--color-heading);
+  margin-top: 0.5rem;
+}
+
+.hero-card__bar {
+  height: 10px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  margin-block: 1.5rem;
+  overflow: hidden;
+}
+
+.hero-card__bar span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #22d3ee, #6366f1);
+  border-radius: inherit;
+}
+
+/* Utility for the demo hero progress — move to dynamic styling if this becomes variable */
+.hero-progress {
+  display: block;
+  width: 65%; /* preserved original demo value previously inline in index.html */
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #22d3ee, #6366f1);
+}
+
+.hero-card__meta {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(226, 232, 240, 0.8);
+}
+
+/* Active exam card - clickable state */
+.hero-card.active-exam {
+  transition: transform var(--transition), box-shadow var(--transition);
+  position: relative;
+}
+
+.hero-card.active-exam:hover::after,
+.hero-card.active-exam:focus::after {
+  content: "Click to resume →";
+  position: absolute;
+  bottom: 1rem;
+  right: 1.5rem;
+  font-size: 0.75rem;
+  color: var(--color-accent);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 1;
+  animation: fadeIn 200ms ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.hero-card.active-exam:hover,
+.hero-card.active-exam:focus {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 30px 70px rgba(99, 102, 241, 0.35);
+}
+
+.hero-card.active-exam:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+/* ===== Grid & cards ===== */
+.grid-section {
+  margin-block: clamp(3rem, 8vw, 6rem);
+}
+
+.grid-section > h2 {
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  text-align: center;
+  color: var(--color-heading);
+  margin-bottom: 2.5rem;
+}
+
+.grid {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.grid.two {
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.grid.three {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.card {
+  background: var(--color-card);
+  border-radius: var(--radius);
+  padding: clamp(1.5rem, 3vw, 2rem);
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(99, 102, 241, 0.15);
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), transparent 60%);
+  pointer-events: none;
+}
+
+.card header h2,
+.card header h3 {
+  margin-top: 0;
+  color: var(--color-heading);
+}
+
+.card p {
+  color: var(--color-muted);
+  line-height: 1.6;
+}
+
+.card.focus {
+  border: 1px solid rgba(99, 102, 241, 0.4);
+  box-shadow: var(--shadow-xl);
+}
+
+@media (any-hover: hover) {
+  .card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(99, 102, 241, 0.45);
+    box-shadow: var(--shadow-xl);
+  }
+}
+
+.card:focus-within {
+  border-color: rgba(99, 102, 241, 0.6);
+  box-shadow: var(--shadow-xl);
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.chart-placeholder {
+  min-height: 240px;
+}
+
+/* ===== Buttons ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.6rem;
+  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--color-heading);
+  background: rgba(15, 23, 42, 0.65);
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition), background var(--transition),
+    color var(--transition);
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+}
+
+.btn:hover,
+.btn:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn.primary {
+  background: linear-gradient(135deg, var(--gradient-primary-start), var(--gradient-primary-end));
+  border: none;
+  box-shadow: 0 20px 30px rgba(96, 165, 250, 0.25);
+}
+
+.btn.outline {
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(148, 163, 184, 0.5);
+}
+
+.btn.accent {
+  background: linear-gradient(135deg, var(--gradient-secondary-start), var(--gradient-secondary-end));
+  border: none;
+  box-shadow: 0 20px 30px rgba(79, 70, 229, 0.35);
+}
+
+.btn.danger {
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.5);
+}
+
+.btn.subtle {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ===== Forms & Input Elements ===== */
+/* 
+  Styling for form controls, labels, input fields, and validation feedback.
+  Consistent visual treatment across text inputs, selects, and textareas.
+*/
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+label {
+  font-weight: 600;
+  color: var(--color-heading);
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  background: rgba(15, 23, 42, 0.7);
+  color: var(--color-heading);
+  font-size: 1rem;
+  transition: border var(--transition), box-shadow var(--transition);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border: 1px solid rgba(99, 102, 241, 0.8);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: flex-start;
+}
+
+.form-error {
+  color: var(--color-danger);
+  font-size: 0.85rem;
+  min-height: 1rem;
+}
+
+/* ===== Theme & Page-Specific Tweaks ===== */
+/* 
+  Per-page styling customizations (home, lecturer, student).
+  Each page has distinct color schemes, header backgrounds, and card styling.
+*/
+
+/* Home page theme: pink/blue gradients for call-to-action feel */
+[data-page="home"] .hero-card {
+  background: linear-gradient(135deg, rgba(96, 165, 250, 0.22), rgba(244, 114, 182, 0.2));
+}
+
+[data-page="home"] .card.focus {
+  border-color: rgba(244, 114, 182, 0.5);
+}
+
+[data-page="home"] .btn.primary {
+  background: linear-gradient(135deg, #f472b6, #60a5fa);
+}
+
+/* Lecturer theme */
+[data-page="lecturer"] .metric {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(59, 130, 246, 0.25));
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+[data-page="lecturer"] #lecturer-auth-section {
+  max-width: 520px;
+}
+
+[data-page="lecturer"] .table-header {
+  border-bottom: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+[data-page="lecturer"] .btn.danger {
+  background: rgba(239, 68, 68, 0.28);
+  border-color: rgba(239, 68, 68, 0.6);
+}
+
+[data-page="lecturer"] .table-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(99, 102, 241, 0.15);
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+[data-page="lecturer"] .table-wrapper {
+  overflow-x: auto;
+}
+
+[data-page="lecturer"] table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+[data-page="lecturer"] table th,
+[data-page="lecturer"] table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+}
+
+[data-page="lecturer"] table th {
+  font-weight: 600;
+  color: var(--color-heading);
+  background: rgba(99, 102, 241, 0.08);
+}
+
+[data-page="lecturer"] table td {
+  color: var(--color-muted);
+}
+
+[data-page="lecturer"] .link {
+  color: var(--color-accent);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+[data-page="lecturer"] .link:hover {
+  color: var(--color-accent-strong);
+}
+
+/* Student theme */
+[data-page="student"] .site-header {
+  background: rgba(30, 64, 175, 0.85);
+}
+
+[data-page="student"] .exam-card {
+  border: 1px solid rgba(96, 165, 250, 0.45);
+  box-shadow: 0 12px 32px rgba(37, 99, 235, 0.28);
+}
+
+[data-page="student"] .card.focus {
+  border-color: rgba(59, 130, 246, 0.65);
+}
+
+/* ===== EXAM LAYOUT STRUCTURE ===== */
+/*
+  Three-column layout for exam and results pages.
+  Structure: left sidebar (280px, sticky) | center content (flex) | right sidebar (280px, optional)
+  
+  Components:
+    - .exam-layout: Main flex container with gutters
+    - .exam-column: Fixed-width sticky sidebar columns
+    - .exam-content: Center content area that expands to fill available space
+    - .exam-summary: Exam metadata (student, time remaining, progress)
+    - .timer: Monospace timer display
+    - .exam-top-bar: Header bar with question count and status
+*/
+
+.exam-layout {
+  --gutter: var(--layout-gutter);
+  display: flex;
+  width: 100%;
+  padding-inline: var(--gutter);
+  gap: var(--gutter);
+  margin: clamp(1.75rem, 3vw, 3rem) auto;
+  box-sizing: border-box;
+}
+
+.exam-column {
+  flex: 0 0 280px;
+}
+
+.exam-content {
+  flex: 1 1 auto;
+  max-width: none;
+}
+
+.exam-column {
+  position: sticky;
+  top: 120px;
+  height: fit-content;
+  max-height: calc(100vh - 160px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.exam-column .card {
+  margin: 0;
+}
+
+.exam-summary {
+  padding: 1.5rem;
+}
+
+.exam-summary dl {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+}
+
+.exam-summary div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.exam-summary dt {
+  font-weight: 600;
+  color: var(--color-heading);
+  font-size: 0.9rem;
+}
+
+.exam-summary dd {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.95rem;
+}
+
+.timer {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--color-accent);
+  font-size: 1.2rem;
+}
+
+.exam-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.exam-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: var(--color-card);
+  border-radius: 12px;
+  border: 1px solid rgba(99, 102, 241, 0.15);
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  background: rgba(99, 102, 241, 0.2);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-accent);
+}
+
+.badge-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+}
+
+.badge-pill.correct {
+  background: rgba(34, 197, 94, 0.2);
+  border-color: rgba(34, 197, 94, 0.4);
+  color: var(--color-success);
+}
+
+.badge-pill.incorrect {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: var(--color-danger);
+}
+
+/* ===== QUESTION CARD & OPTIONS ===== */
+/*
+  Styling for individual exam questions, answer options, and interaction controls.
+  
+  Components:
+    - .question-card: Container for single question with header and options
+    - .question-options: Flex container for answer option list
+    - .option-card: Interactive answer option with checkbox/radio
+    - .option-input: Hidden form input (checkbox or radio)
+    - .option-content: Text content of answer option
+    - .question-controls: Footer buttons (Flag, Previous, Next)
+*/
+
+.question-card {
+  background: var(--color-card);
+  border-radius: var(--radius);
+  padding: 2rem;
+  border: 1px solid rgba(99, 102, 241, 0.15);
+  box-shadow: var(--shadow-md);
+}
+
+.question-card header {
+  margin-bottom: 1.5rem;
+}
+
+.question-card h2 {
+  font-size: 1.4rem;
+  color: var(--color-heading);
+  margin: 0 0 0.5rem 0;
+}
+
+.question-card .question-type {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.question-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-block: 1.5rem;
+}
+
+.option-input {
+  display: none;
+}
+
+.option-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  background: rgba(99, 102, 241, 0.05);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.option-card:hover {
+  background: rgba(99, 102, 241, 0.1);
+  border-color: rgba(99, 102, 241, 0.35);
+}
+
+.option-card input:checked ~ .option-content {
+  color: var(--color-accent);
+}
+
+.option-card input:checked {
+  accent-color: var(--color-accent);
+}
+
+.option-card input[type="checkbox"],
+.option-card input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  cursor: pointer;
+  accent-color: var(--color-accent);
+}
+
+.option-content {
+  flex: 1;
+  line-height: 1.5;
+  color: var(--color-muted);
+}
+
+.option-text {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.question-controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(99, 102, 241, 0.15);
+}
+
+.btn-flag {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.exam-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding-top: 1rem;
+}
+
+/* ===== QUESTION NAVIGATOR ===== */
+/*
+  10-column grid of question number buttons with status indicators.
+  Color coding shows question status during and after exam.
+  
+  Button States:
+    - .answered: Green - Question has been answered
+    - .flagged: Yellow - Question flagged for review
+    - .current: Blue - Currently viewing this question
+    - .is-correct: Green - Correct after submission (results page)
+    - .is-incorrect: Red - Incorrect after submission (results page)
+  
+  Components:
+    - .navigator-grid: 10-column layout
+    - .navigator-button: Individual question button
+    - .navigator-legend: Color code explanation
+*/
+
+#questionNavigator {
+  padding: 1.5rem;
+}
+
+.navigator-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 0.35rem;
+  margin-bottom: 1.5rem;
+}
+
+#questionNavigator {
+  width: 100%;
+  margin: 0;
+}
+
+.navigator-button {
+  width: 100%;
+  max-width: 34px;
+  aspect-ratio: 1;
+}
+
+.navigator-button {
+  width: 100%;
+  aspect-ratio: 1;
+  padding: 0;
+  border-radius: 10px;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  background: rgba(99, 102, 241, 0.08);
+  color: var(--color-muted);
+  cursor: pointer;
+  transition: all var(--transition);
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.navigator-button:hover {
+  background: rgba(99, 102, 241, 0.15);
+}
+
+.navigator-button.answered {
+  background: rgba(34, 197, 94, 0.2);
+  border-color: rgba(34, 197, 94, 0.5);
+  color: var(--color-success);
+}
+
+.navigator-button.flagged {
+  background: rgba(251, 191, 36, 0.2);
+  border-color: rgba(251, 191, 36, 0.5);
+  color: #fbbf24;
+}
+
+.navigator-button.current {
+  background: rgba(99, 102, 241, 0.3);
+  border-color: rgba(99, 102, 241, 0.8);
+  color: var(--color-heading);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.navigator-button.is-correct {
+  background: rgba(34, 197, 94, 0.18);
+  border-color: rgba(34, 197, 94, 0.4);
+  color: var(--color-success);
+}
+
+.navigator-button.is-incorrect {
+  background: rgba(239, 68, 68, 0.18);
+  border-color: rgba(239, 68, 68, 0.45);
+  color: var(--color-danger);
+}
+
+.navigator-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(99, 102, 241, 0.15);
+  font-size: 0.85rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.legend-item::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+.legend-item.answered::before {
+  background: rgba(34, 197, 94, 0.6);
+}
+
+.legend-item.flagged::before {
+  background: rgba(251, 191, 36, 0.6);
+}
+
+.legend-item.current::before {
+  background: rgba(99, 102, 241, 0.6);
+}
+
+.legend-item.correct::before {
+  background: rgba(34, 197, 94, 0.6);
+}
+
+.legend-item.incorrect::before {
+  background: rgba(239, 68, 68, 0.6);
+}
+
+/* Topic breakdown cards */
+.results-summary-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Card header: exam title and attempt metadata */
+.results-summary-card h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1.2rem;
+}
+
+/* Metadata text: student name and attempt date/time */
+.results-summary-card .results-meta {
+  font-size: 0.9rem;
+  color: rgba(226, 232, 240, 0.8);
+  margin-bottom: 0.8rem;
+  line-height: 1.4;
+}
+
+/* Score breakdown: 2x2 grid layout showing percentage, correct, incorrect, and time */
+body[data-page="results"] .results-summary {
+  margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+/* Label for each metric (Score, Correct, Incorrect, Time Taken) */
+body[data-page="results"] .results-summary .results-label {
+  display: block;
+  font-size: 0.8rem;
+  color: rgba(226, 232, 240, 0.75);
+  margin-bottom: 0.2rem;
+  white-space: nowrap;
+}
+
+/* Value for each metric (percentage, number, duration) */
+body[data-page="results"] .results-summary .results-value {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-heading);
+}
+
+/* Action button container: stacked button layout */
+.results-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Ensure buttons stretch to full width and text stays on single line */
+.results-actions .btn {
+  white-space: nowrap;
+  width: 100%;
+}
+
+.topic-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+  grid-auto-rows: 1fr;
+}
+
+@media (max-width: 720px) {
+  .topic-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.topic-card {
+  border-radius: 18px;
+  padding: 1rem 1.2rem;
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.15), rgba(14, 165, 233, 0.12));
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.topic-card header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.topic-card h3 {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-heading);
+  line-height: 1.3;
+  word-wrap: break-word;
+}
+
+.topic-card span {
+  font-weight: 700;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.topic-card__meta {
+  margin: 0 0 0.6rem 0;
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}
+
+.topic-card__meter {
+  position: relative;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  margin-top: 0;
+}
+
+.topic-card__meter span {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, var(--gradient-secondary-start), var(--gradient-secondary-end));
+  font-weight: 400;
+  font-size: inherit;
+}
+
+.topic-card__meter {
+  position: relative;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  margin-top: 0.9rem;
+}
+
+.topic-card__meter span {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, var(--gradient-secondary-start), var(--gradient-secondary-end));
+}
+
+/* ===== REVIEW SECTION (Answer Review Panel) ===== */
+/*
+  Answer review layout showing question prompt, user selections, and correct answers.
+  Used in both exam submission review and results pages.
+  
+  Components:
+    - .review-progress: Container for navigator grid + legend
+    - .review-content: Two-column layout (navigator | detail)
+    - .review-detail: Answer detail card
+    - .review-detail__header: Question number + result badge
+    - .review-detail__prompt: Question text
+    - .review-detail__answers: Correct answers + user selections
+    - .answer-indicator: Circular badge for correct/incorrect
+*/
+
+.review-progress {
+  background: rgba(15, 23, 42, 0.7);
+  border-radius: var(--radius);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  padding: 1.5rem;
+  margin-top: 0;
+}
+
+.review-content {
+  display: grid;
+  grid-template-columns: minmax(240px, 320px) minmax(360px, 1fr);
+  gap: clamp(1rem, 3vw, 2rem);
+  align-items: start;
+}
+
+.review-detail {
+  margin-top: 0;
+  border-radius: var(--radius);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  padding: 1.5rem;
+  background: rgba(15, 23, 42, 0.85);
+  box-shadow: var(--shadow-sm);
+}
+
+.review-detail__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.review-detail__prompt {
+  margin-top: 0;
+  color: var(--color-heading);
+  line-height: 1.6;
+}
+
+.review-detail__answers {
+  margin-top: 1rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.review-detail__answers ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.answer-row {
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+}
+
+.answer-indicator {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.answer-indicator.correct {
+  background: rgba(34, 197, 94, 0.25);
+  color: var(--color-success);
+}
+
+.answer-indicator.incorrect {
+  background: rgba(239, 68, 68, 0.25);
+  color: var(--color-danger);
+}
+
+.review-detail__muted {
+  color: var(--color-muted);
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .review-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== MODAL DIALOG ===== */
+/*
+  Full-screen modal overlay for dialogs (exam submission review, etc).
+  
+  Components:
+    - .modal: Fixed overlay backdrop
+    - .modal.show: Visibility toggle
+    - .modal__dialog: Dialog content container
+    - .modal__header: Title + close button
+    - .modal__body: Scrollable content area
+    - .modal__footer: Action buttons
+    - .modal__close: Close button
+*/
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  place-items: center;
+}
+
+.modal.show {
+  display: grid;
+}
+
+.modal__dialog {
+  background: var(--color-card);
+  border-radius: var(--radius);
+  max-width: 700px;
+  max-height: 80vh;
+  overflow-y: auto;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  box-shadow: 0 50px 100px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+}
+
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid rgba(99, 102, 241, 0.15);
+}
+
+.modal__header h2 {
+  margin: 0;
+  color: var(--color-heading);
+  font-size: 1.3rem;
+}
+
+.modal__close {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: var(--color-muted);
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all var(--transition);
+}
+
+.modal__close:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-heading);
+}
+
+.modal__body {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.modal__body > * + * {
+  margin-top: 1.5rem;
+}
+
+.modal__footer {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  padding: 1.5rem 2rem;
+  border-top: 1px solid rgba(99, 102, 241, 0.15);
+  background: rgba(99, 102, 241, 0.05);
+}
+
+/* Submission Review */
+.review-section {
+  background: var(--color-card);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid rgba(99, 102, 241, 0.15);
+  margin-bottom: 1.5rem;
+}
+
+.review-section h3 {
+  margin-top: 0;
+  color: var(--color-heading);
+}
+
+/* ===== RESPONSIVE & MOBILE ADJUSTMENTS ===== */
+/*
+  Breakpoint-based layout adjustments for smaller screens.
+  Maintains usability on tablets and mobile devices.
+  
+  Key adjustments:
+    - Exam layout: Switches from flex columns to single column below 1024px
+    - Question navigator: Responsive grid columns
+    - Sidebar positioning: Relative instead of sticky on mobile
+    - Question card: Reduced padding on mobile
+    - Navigation grid: Auto-fit columns based on available space
+*/
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .exam-layout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .exam-column {
+    position: relative;
+    top: 0;
+    max-height: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .question-card {
+    padding: 1.5rem;
+  }
+
+  .navigator-grid {
+    grid-template-columns: repeat(auto-fill, minmax(28px, 1fr));
+  }
+
+  .exam-top-bar {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+}

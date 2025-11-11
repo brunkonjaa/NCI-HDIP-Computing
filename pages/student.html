@@ -1,0 +1,112 @@
+<!--
+  Mock Exam Portal
+  Started: January 2024 (self-taught during cybersecurity studies)
+  Note: Continuation of an earlier project; early versions lacked comments. Now using more
+  documentation so others (and future-me) can quickly understand the intent of each section.
+  Still using ever so slightly excessive commenting because it soothes my OCD now that I
+  understand what it actually purpose is.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Hub &mdash; Mock Exam Portal</title>
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+  <script defer src="../assets/data/html-questions.js"></script>
+  <script defer src="../assets/data/css-questions.js"></script>
+  <script defer src="../assets/data/java-questions.js"></script>
+  <script defer src="../assets/js/data.js"></script>
+  <script defer src="../assets/js/app.js"></script>
+  <script defer src="../assets/js/student.js"></script>
+</head>
+<body data-page="student">
+  <header class="site-header">
+    <div class="container">
+      <h1 class="site-title">Student Hub</h1>
+      <nav class="site-nav">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="student.html" class="nav-link is-active">Student Hub</a>
+        <a href="lecturer.html" class="nav-link">Lecturer Dashboard</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card focus" id="student-auth-card">
+      <header>
+        <h2>Student Sign In</h2>
+        <p>Create a local profile to save your exam attempts on this computer.</p>
+      </header>
+      <form id="student-form" novalidate>
+        <div class="form-row">
+          <label for="studentName">Full Name</label>
+          <input type="text" id="studentName" name="studentName" placeholder="e.g. Alex Murphy" required maxlength="60" />
+          <span class="form-error" data-error-for="studentName"></span>
+        </div>
+        <div class="form-row">
+          <label for="studentId">Student ID</label>
+          <input type="text" id="studentId" name="studentId" placeholder="e.g. HD123456" required maxlength="20" pattern="[A-Za-z0-9\\-]+" />
+          <span class="form-error" data-error-for="studentId"></span>
+        </div>
+        <div class="form-row">
+          <label for="studentEmail">Email (optional)</label>
+          <input type="email" id="studentEmail" name="studentEmail" placeholder="name@example.com" />
+          <span class="form-error" data-error-for="studentEmail"></span>
+        </div>
+        <div class="form-actions">
+          <button class="btn primary" type="submit">Save Profile</button>
+          <button class="btn" type="button" id="clearProfileBtn">Clear Saved Profile</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card card-wide" id="available-exams" hidden>
+      <header>
+        <h2>Available Mock Exams</h2>
+        <p>Select an exam to view instructions and begin your attempt.</p>
+      </header>
+      <div class="grid three">
+        <article class="card exam-card">
+          <header>
+            <h3>HTML Mock Exam</h3>
+            <p>80 questions &middot; 90 minutes</p>
+          </header>
+          <p>Assess your knowledge of semantic markup, accessibility, forms, multimedia, and modern HTML5 APIs.</p>
+          <a class="btn primary" href="html-exam.html">View Instructions</a>
+        </article>
+        <article class="card exam-card">
+          <header>
+            <h3>CSS Mock Exam</h3>
+            <p>80 questions &middot; 90 minutes</p>
+          </header>
+          <p>Master layouts, responsive design, animations, variables, and advanced selectors.</p>
+          <a class="btn primary" href="css-exam.html">View Instructions</a>
+        </article>
+        <article class="card exam-card">
+          <header>
+            <h3>Java Mock Exam</h3>
+            <p>80 questions &middot; 110 minutes</p>
+          </header>
+          <p>Test your skills in core Java, OOP principles, collections, streams, and exception handling.</p>
+          <a class="btn primary" href="java-exam.html">View Instructions</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="card card-wide" id="attempt-history" hidden>
+      <header>
+        <h2>Your Attempt History</h2>
+        <p>Track your progress and revisit detailed feedback for each exam.</p>
+      </header>
+      <div id="attemptTableWrapper" class="table-wrapper"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span data-year></span> Mock Exam Portal &mdash; Student Hub</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!--
+  Mock Exam Portal - Results Page
+  Started: January 2024 (self-taught during cybersecurity studies)
+  Purpose: Display exam attempt results including score summary, performance metrics, and answer review.
+  
+  Layout: Two-column design (exam-layout)
+    - Left sidebar (280px): Attempt details and navigation options
+    - Center (flexible): Comprehensive answer review with question navigator
+  
+  Key Features:
+    - Score breakdown (percentage, correct/incorrect counts, time taken)
+    - Question navigator with visual indicators (correct/incorrect)
+    - Detailed answer review showing prompt, your selection, and correct answers
+    - JSON export functionality for attempt records
+    - Navigation back to student hub
+  
+  Note: Continuation of earlier project. Early versions lacked comments. 
+  Now using documentation for code clarity and maintainability.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Results &mdash; Mock Exam Portal</title>
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+  <script defer src="../assets/data/html-questions.js"></script>
+  <script defer src="../assets/data/css-questions.js"></script>
+  <script defer src="../assets/data/java-questions.js"></script>
+  <script defer src="../assets/js/data.js"></script>
+  <script defer src="../assets/js/app.js"></script>
+  <script defer src="../assets/js/results.js"></script>
+</head>
+<body data-page="results">
+  <header class="site-header">
+    <div class="container">
+      <h1 class="site-title">Exam Results</h1>
+      <!-- Navigation to other major sections -->
+      <nav class="site-nav">
+        <a href="student.html" class="nav-link">Student Hub</a>
+        <a href="lecturer.html" class="nav-link">Lecturer Dashboard</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Two-column exam layout: left sidebar + center content area -->
+  <main class="exam-layout" id="resultsContainer">
+    <!-- LEFT SIDEBAR: Attempt Summary & Action Buttons -->
+    <aside class="exam-column">
+      <!-- Attempt Details Card: Shows exam info, student name, and score breakdown -->
+      <section class="card results-summary-card">
+        <header>
+          <h3 data-exam-title>Loading…</h3>
+          <p class="results-meta">
+            Student: <span data-student-name>—</span><br />
+            Attempt: <span data-attempt-date>—</span>
+          </p>
+        </header>
+        <!-- Score metrics displayed in a 2x2 grid -->
+        <div class="results-summary">
+          <div>
+            <span class="results-label">Score</span>
+            <span class="results-value" data-score>—</span>
+          </div>
+          <div>
+            <span class="results-label">Correct</span>
+            <span class="results-value" data-correct>—</span>
+          </div>
+          <div>
+            <span class="results-label">Incorrect</span>
+            <span class="results-value" data-incorrect>—</span>
+          </div>
+          <div>
+            <span class="results-label">Time Taken</span>
+            <span class="results-value" data-duration>—</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Navigation Card: Primary and secondary action buttons -->
+      <section class="card next-steps-card">
+        <header>
+          <h2>Next Steps</h2>
+        </header>
+        <div class="results-actions">
+          <a class="btn primary" href="student.html">Return to Student Hub</a>
+          <button class="btn" type="button" id="exportAttemptBtn">Export Attempt (JSON)</button>
+        </div>
+      </section>
+    </aside>
+
+    <!-- CENTER CONTENT: Answer Review with Question Navigator -->
+    <section class="exam-content card" id="reviewSection">
+      <header>
+        <h2>Review Answers</h2>
+        <p>
+          Compare your selections with the correct answers. Multi-answer questions require all correct options for full marks.
+        </p>
+      </header>
+      <div class="review-content">
+        <!-- Question Navigator: Grid of all question numbers with color coding -->
+        <div class="review-progress">
+          <div class="navigator-grid" data-review-buttons></div>
+          <!-- Legend explaining color codes (correct/incorrect) -->
+          <div class="navigator-legend">
+            <span class="legend-item correct">Correct</span>
+            <span class="legend-item incorrect">Incorrect</span>
+          </div>
+        </div>
+        <!-- Answer Detail Panel: Displays selected question's prompt and answers -->
+        <article class="review-detail" id="reviewDetail">
+          <p class="review-detail__muted">Select a question number to view the prompt and answers.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- Toast notification container for user feedback (success, errors, etc.) -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
