@@ -2,6 +2,10 @@
 
 Week 8 paired two JavaScript exercises: the Welcome Portal validation challenge and the Rock, Paper, Scissors mini-game. This repo hosts both on a single page so their conditional logic is easy to compare.
 
+### Copy the full URL https://github.com/brunkonjaa/NCI-HDIP-Computing/blob/main/Semester%201/Web/Lab8/index.html
+### Paste it into: https://htmlpreview.github.io/
+### Click "Preview"​
+
 ## Exercises
 
 1. **Welcome Portal Validation** – captures a visitor’s name and age, enforces the Sam rule, and shows contextual cards. Blocked visitors can optionally open a mock quiz or a video via buttons.
