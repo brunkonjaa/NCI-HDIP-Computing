@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Head keeps meta + styling consistent -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Week 8 Lab + Lecture Challenge</title>
+    <!-- Single stylesheet for both modules -->
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+    <!-- Main grid holds both lab sections -->
+    <main class="page">
+      <!-- Top intro explains everything -->
+      <header class="page__intro">
+        <p>Week 8 mash-up: play Rock, Paper, Scissors and test the Welcome Portal logic in one place.</p>
+      </header>
+
+      <!-- Portal section collects name + age before the game -->
+      <section class="module welcome-module" aria-labelledby="welcome-title">
+        <div class="module__header">
+          <h2 id="welcome-title">Welcome Portal</h2>
+          <p>Lecture challenge: collect a name and age, enforce the Sam rule, and show the correct card.</p>
+        </div>
+
+        <div class="welcome-form" id="welcomeForm">
+          <!-- Name input stays free-form text -->
+          <label for="name">Enter your name:</label>
+          <input type="text" id="name" placeholder="Your name" autocomplete="name">
+
+          <!-- Age input goes numeric-only -->
+          <label for="age">Enter your age:</label>
+          <input type="number" id="age" placeholder="Your age" inputmode="numeric" pattern="\d*">
+
+          <button type="button" id="submitBtn">Submit</button>
+          <p id="message" class="form-message" aria-live="polite"></p>
+        </div>
+        <!-- Placeholder for the result cards -->
+        <div id="welcomeResults" aria-live="polite"></div>
+      </section>
+
+      <!-- RPS module unlocks only after approval -->
+      <section class="module rps-module is-locked" aria-labelledby="rps-title" id="rpsGate" aria-hidden="true">
+        <div class="module__header">
+          <h2 id="rps-title">Rock, Paper, Scissors</h2>
+          <p>Classic showdown powered by straightforward if statements.</p>
+        </div>
+
+        <!-- Overlay explains why the game is disabled -->
+        <div class="locked-overlay" id="rpsLockMessage">
+          <p>Please complete the Welcome Portal and be approved to unlock the game.</p>
+        </div>
+
+        <!-- Game UI goes here once unlocked -->
+        <div class="rps-content" id="rpsContent">
+          <p class="inline-label">Choose your move:</p>
+          <div class="choices">
+            <button type="button" id="rock">Rock</button>
+            <button type="button" id="paper">Paper</button>
+            <button type="button" id="scissors">Scissors</button>
+          </div>
+
+          <!-- Scoreboard readout -->
+          <section id="status" class="status-card">
+            <p><strong>Your choice:</strong> <span id="playerChoice">-</span></p>
+            <p><strong>Computer:</strong> <span id="computerChoice">-</span></p>
+            <p id="result"><strong>Result:</strong> -</p>
+            <p class="score"><strong>Score</strong> - You: <span id="playerScore">0</span> | Computer: <span id="computerScore">0</span> | Ties: <span id="ties">0</span></p>
+          </section>
+
+          <!-- Reset button cluster -->
+          <div class="controls">
+            <button type="button" id="reset">Reset Score</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer keeps reference links -->
+      <footer class="page__footer">
+        <p>Both exercises stay here so it is easy to compare if-else logic from lab and lecture.</p>
+        <p><a href="https://wrpsa.com/the-official-rules-of-rock-paper-scissors/" target="_blank" rel="noopener">Official RPS rules</a> &mdash; <a href="https://brunkonjaa.github.io/NCI-HDIP-Computing/" target="_blank" rel="noopener">Mock Quiz</a></p>
+      </footer>
+    </main>
+
+    <!-- Single bundle houses both JS modules -->
+    <script src="js/script.js"></script>
+  </body>
+</html>
+

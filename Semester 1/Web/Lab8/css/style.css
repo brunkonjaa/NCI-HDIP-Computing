@@ -1,0 +1,319 @@
+/* Theme tokens shared across both modules */
+:root{
+  --bg:#0f172a;
+  --panel:linear-gradient(180deg,#0b1220 0%,#0f1b3a 100%);
+  --panel-border:rgba(255,255,255,0.08);
+  --shine-start:#2b4b9a;
+  --shine-end:#1f2a6b;
+  --accent:#1e40af;
+  --cyan:#22d3ee;
+  --muted:#9aa6c0;
+  --glass:rgba(255,255,255,0.06);
+  --white-card:#ffffff;
+  --indigo:#0b61d6;
+}
+/* Reset keeps sizing predictable */
+*{box-sizing:border-box;margin:0;padding:0;font-family:Segoe UI, Roboto, Arial, sans-serif}
+/* Body background and base copy color */
+body{
+  background:linear-gradient(180deg,#071027,#0b1220);
+  color:#eef2ff;
+  min-height:100vh;
+}
+/* Main grid wrapper for all sections */
+.page{
+  width:min(1120px,100%);
+  margin:0 auto;
+  padding:42px 24px 54px;
+  display:grid;
+  gap:28px;
+}
+/* Intro and footer span the grid */
+.page__intro,
+.page__footer{
+  grid-column:1/-1;
+  text-align:center;
+  color:#d6def7;
+  font-size:1rem;
+}
+.page__footer a{
+  color:var(--cyan);
+}
+.page__footer a:hover{
+  color:#a8fbff;
+}
+/* Two column layout on larger screens */
+@media (min-width:980px){
+  .page{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    align-items:start;
+  }
+  .page__intro,
+  .page__footer{
+    grid-column:span 2;
+  }
+}
+/* Card styling shared by both modules */
+.module{
+  border-radius:20px;
+  padding:28px;
+  box-shadow:0 18px 42px rgba(2,6,23,0.55);
+  position:relative;
+}
+/* Module header typography */
+.module__header h2{
+  font-size:1.6rem;
+  margin-bottom:6px;
+  color:#e6f0ff;
+}
+.module__header p{
+  color:#d6def7;
+  font-size:0.95rem;
+}
+/* Helper label beside the buttons */
+.inline-label{
+  margin-top:18px;
+  color:#d6def7;
+  text-align:center;
+}
+/* Game panel styles and lock state */
+.rps-module{
+  background:var(--panel);
+  border:1px solid var(--panel-border);
+}
+.rps-module.is-locked{
+  opacity:0.65;
+}
+/* Hide the RPS interface until unlocked */
+.rps-content{
+  visibility:hidden;
+  pointer-events:none;
+}
+.rps-module:not(.is-locked) .rps-content{
+  visibility:visible;
+  pointer-events:auto;
+}
+.locked-overlay{
+  border:1px dashed rgba(255,255,255,0.25);
+  border-radius:14px;
+  padding:18px;
+  text-align:center;
+  color:#d6def7;
+  background:rgba(7,16,39,0.45);
+  font-weight:500;
+}
+.rps-module:not(.is-locked) .locked-overlay{
+  display:none;
+}
+/* Buttons for RPS choices */
+.choices{
+  display:flex;
+  gap:16px;
+  justify-content:center;
+  margin:18px 0;
+  flex-wrap:wrap;
+}
+.choices button{
+  padding:14px 22px;
+  font-size:16px;
+  border-radius:14px;
+  border:none;
+  cursor:pointer;
+  color:#fff;
+  background:linear-gradient(180deg,var(--shine-start),var(--cyan));
+  box-shadow:0 8px 26px rgba(34,211,238,0.10),0 1px 0 rgba(255,255,255,0.05);
+  transition:transform .12s ease,box-shadow .12s ease;
+}
+.choices button:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(34,211,238,0.14)}
+.choices button:active{transform:translateY(-2px)}
+/* Scoreboard card */
+.status-card{
+  background:linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02));
+  padding:18px;
+  border-radius:12px;
+  margin:10px 0;
+  border:1px solid rgba(255,255,255,0.08);
+}
+/* Score readout and reset button */
+.status-card p{
+  color:#eef6ff;
+  margin-bottom:6px;
+}
+.score{
+  margin-top:10px;
+  color:#d6def7;
+}
+.controls{
+  display:flex;
+  justify-content:center;
+  margin-top:14px;
+}
+#reset{
+  padding:10px 18px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.18);
+  background:transparent;
+  color:var(--muted);
+  cursor:pointer;
+  box-shadow:inset 0 -2px 0 rgba(0,0,0,0.2),0 6px 18px rgba(2,6,23,0.6);
+  transition:color .15s ease,border-color .15s ease;
+}
+#reset:hover{
+  color:#fff;
+  border-color:rgba(255,255,255,0.4);
+}
+/* Welcome Portal card styling */
+.welcome-module{
+  background:var(--white-card);
+  color:#0b1730;
+  position:relative;
+  overflow:hidden;
+}
+/* Soft glow overlay that appears on hover */
+.welcome-module::before{
+  content:'';
+  position:absolute;
+  inset:10px;
+  border-radius:24px;
+  background:radial-gradient(60% 60% at 10% 10%,rgba(11,97,214,0.16),rgba(6,30,70,0.04) 55%,rgba(255,255,255,0) 70%);
+  opacity:0;
+  transition:opacity 320ms ease;
+  pointer-events:none;
+}
+.welcome-module:hover::before{
+  opacity:0.4;
+}
+.welcome-module .module__header h2{
+  color:#0b1730;
+}
+.welcome-module .module__header p{
+  color:#516080;
+}
+/* Form layout and inputs */
+.welcome-form{
+  margin-top:12px;
+}
+.welcome-form label{
+  display:block;
+  text-align:left;
+  margin:10px 0 6px;
+  font-size:0.92rem;
+  color:#23304a;
+}
+.welcome-form input{
+  display:block;
+  width:100%;
+  margin:6px 0 12px;
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid var(--indigo);
+  background:#fbfdff;
+  box-shadow:inset 0 1px 3px rgba(15,23,42,0.04);
+  font-size:0.95rem;
+  color:#0b1730;
+  transition:box-shadow 180ms ease,border-color 180ms ease,transform 180ms ease;
+}
+.welcome-form input:focus{
+  outline:none;
+  border-color:var(--indigo);
+  box-shadow:0 8px 24px rgba(11,97,214,0.12),inset 0 1px 2px rgba(0,0,0,0.03);
+  transform:translateY(-1px);
+}
+.welcome-form button{
+  padding:10px 20px;
+  border-radius:10px;
+  border:none;
+  background:linear-gradient(180deg,var(--indigo) 0%,#0a48b3 100%);
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 8px 20px rgba(11,61,145,0.18);
+  transition:transform 180ms ease,box-shadow 180ms ease;
+}
+.welcome-form button:hover{
+  transform:translateY(-3px);
+  box-shadow:0 14px 30px rgba(11,61,145,0.28);
+}
+.form-message{
+  margin-top:12px;
+  min-height:1.3em;
+  color:#1e293b;
+}
+.form-message.is-error{
+  color:#c53030;
+}
+/* Spacer for the container that JS fills */
+#welcomeResults{
+  margin-top:18px;
+}
+/* Result cards injected by JS */
+.result-card{
+  background:linear-gradient(180deg,#ffffff 0%,#f7fbff 100%);
+  color:#08203a;
+  width:100%;
+  margin:0 auto 12px;
+  padding:22px 26px;
+  border-radius:14px;
+  box-shadow:8px 10px 30px rgba(2,6,23,0.18),0 6px 18px rgba(11,97,214,0.06);
+  text-align:center;
+}
+.result-card h2{
+  margin:0 0 8px;
+  font-size:1.15rem;
+}
+.result-card p{
+  margin:6px 0 0;
+  font-size:0.98rem;
+}
+/* Mini card holding outbound links */
+.mini-card{
+  background:rgba(15,23,42,0.9);
+  color:#eaf4ff;
+  width:100%;
+  padding:14px 18px;
+  border-radius:12px;
+  border:1px solid rgba(11,97,214,0.12);
+  text-align:center;
+  font-size:0.95rem;
+}
+.mini-card .quiz-actions{
+  margin-top:10px;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+/* Buttons injected inside the quiz card */
+.btn-ghost,
+.btn-primary-small{
+  padding:8px 14px;
+  border-radius:8px;
+  cursor:pointer;
+}
+.btn-primary-small{
+  border:none;
+  background:linear-gradient(180deg,var(--indigo) 0%,#0a48b3 100%);
+  color:white;
+}
+.btn-ghost{
+  background:transparent;
+  color:#cfe9ff;
+  border:1px solid rgba(255,255,255,0.22);
+}
+/* Entrance animation reused by cards */
+.fade-in{
+  opacity:0;
+  transform:translateY(8px);
+  animation:fadeInUp 360ms ease forwards;
+}
+@keyframes fadeInUp{
+  to{opacity:1;transform:translateY(0);}
+}
+/* Global link colors */
+a{color:var(--cyan)}
+a:hover{color:#a8fbff}
+/* Stack buttons on very small screens */
+@media (max-width:480px){
+  .choices{flex-direction:column;align-items:center}
+  .choices button{width:220px}
+}
