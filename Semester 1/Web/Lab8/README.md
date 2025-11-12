@@ -6,6 +6,11 @@ Week 8 paired two JavaScript exercises: the Welcome Portal validation challenge 
 ### Paste it into: https://htmlpreview.github.io/
 ### Click "Preview"​
 
+### OR
+
+### Use this: https://brunkonjaa.github.io/NCI-HDIP-Computing/Semester%201/Web/Lab8/
+
+
 ## Exercises
 
 1. **Welcome Portal Validation** – captures a visitor’s name and age, enforces the Sam rule, and shows contextual cards. Blocked visitors can optionally open a mock quiz or a video via buttons.
